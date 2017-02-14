@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 from matplotlib import pyplot as plt
 from Libreria.Testing import testClassifier
-from Latex import printConfusionMatrix
+from Libreria.Latex import printConfusionMatrix
 #load datasets
 main_dataset, dataset_parts = importDatasetAndSplit()
 

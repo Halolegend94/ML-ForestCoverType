@@ -238,6 +238,10 @@ class Dataset:
         return len(self.data)
 
     def divideFeaturesAndLabels(self, class_index):
+        """
+        returns the dataset without the class column, and a vector containing a label for each
+        row of the dataset.
+        """
         etichette = []
         features = []
         for i in range(len(self.data)):

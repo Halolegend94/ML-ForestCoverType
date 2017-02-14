@@ -10,8 +10,7 @@
 
 \maketitle
 \begin{abstract}
-
-
+This report has the objective to show how different classifiers perform on the forest cover type problem. In particular, Naive Bayes, Neural Network, Decision Tree and Random Forest are subject to accuracy testing, cross validation and learning curve analysis to establish which one is best suited to model the phenomenon. It will be discovered that ensem
 \end{abstract}
 \newpage
 \tableofcontents
@@ -19,18 +18,19 @@
 
 \section{Introduction}
 
-The objective of this work is to develop and compare different models of a phenomenon using machine learning techniques. In particular, the interest lays in predicting the forest cover type of a region given certain characteristics of the soil and ambient. 
+The objective of this work is to develop and compare different models of a phenomenon using machine learning techniques. In particular, the interest lays in predicting the forest cover type of a region given certain characteristics of the soil and the environment.
 
-In order to do so, large dataset of 581012 instances is provided, where each instance is an observation of a $30 \times 30$ meter cell characterized by 54 attributes and associated with the correct class of forest cover type. The 54 columns of data are divided as follows: 10 quantitative variables, 4 binary wilderness areas and 40 binary soil type variables.
+In order to do so, a large dataset of 581012 instances is provided, where each instance is an observation of a $30 \times 30$ meter cell characterized by 54 attributes and associated with the correct class of forest cover type. The 54 columns of data are divided as follows: 10 quantitative variables, 4 binary wilderness areas and 40 binary soil type variables.
 
-It is thus a classification problem. To find the best model different machine learning algorithms are evaluated, each one with carefully selected parameters, and a comparison of their predictive capacity (accuracy) and some other metrics takes place. In particular, the following supervised learning algorithms are chosen: \emph{Naive Bayes}, \emph{Neural Networks}, \emph{Decision Tree}, \emph{Support Vector Machine} and \emph{Random Forest}. The choice has not been casual: each one of these classifiers works in a different way from the others, so that the probability of finding the best approach is maximized.
+It is thus a classification problem. To find the best model different machine learning algorithms are evaluated, each one with carefully selected parameters; next, a comparison of their predictive capacity (accuracy) and some other metrics takes place to find out which type of classifier best fit the problem to be solved. In particular, the following supervised learning algorithms are evaluated: \emph{Naive Bayes}, \emph{Neural Networks}, \emph{Decision Tree}, and \emph{Random Forest}. The choice has not been casual: each one of these classifiers works in a different way from the others, so that the probability of finding the best approach is maximized.
 
 \section{Experimental settings and planning} 
-In this section experimental settings, that is, machines and tools used, are described. Furthermore, the experiments' structure will be laid out, indicating how classifiers are parametrized and evaluated.
-\subsection{Hardware and software}
- Computing machine's main characteristics are listed: 12gb or RAM DDR3, Inter Core i7 processor with a maximum clock frequency of 3.4ghz, GPU Nvidia GeForce 820M. 
+In this section experimental settings, that are machines and tools used, are described. Furthermore, the experiments' structure will be laid out, indicating which set of tests classifiers are subject to in order to be evaluated.
 
-On the software side, Python has been selected as programming language for its ease of use, the vast number of libraries and the good level of performances. As for machine learning algorithms implementation, the Python module \href{http://scikit-learn.org/}{scikit-learn} has been chosen; it is the most used machine learning Python library in the scientific community, so it is well tested and optimized. Following the guidelines of Python, only few lines of code are needed to run a classifier in scikit-learn. The typical workflow is the following:
+\subsection{Hardware and software}
+Experiments will be performed on a laptop having 12Gb og RAM DDR3, an Inter Core i7 processor with a maximum clock frequency of 3.4ghz and a Nvidia GeForce 820M GPU. 
+
+On the software side, Python has been selected as programming language for its ease of use and the vast number of good machine learning libraries. In particular, the module implementing machine learning algorithms that has been chosen is \href{http://scikit-learn.org/}{scikit-learn}; it is the most used machine learning Python library in the scientific community, so it is well tested and optimized. Following the guidelines of Python, only few lines of code are needed to run a classifier in scikit-learn. The typical workflow is the following:
 \begin{itemize}
 	\item Initialize a new classifier object, for example a Multilayer Perceptron, passing the needed parameters to the constructor. Parameters are specific for each classifier.
 	\begin{center}
@@ -53,7 +53,7 @@ On the software side, Python has been selected as programming language for its e
 
 Every classifier implements the \emph{fit} and \emph{predict} methods. Furthermore, scikit-learn has a lot of functions to manipulate data and perform testing and cross-validation.
 
-Finally, functions not implemented in scikit-learn (e.g. information gain) are manually implemented.
+Even though scikit-learn implements a lot of machine learning functions, a series of helper functions have been implemented in first person. For example, a class \emph{Dataset} has been created to deal with the dataset and it is capable of: computing the information gain; splitting the dataset randomly in $K$ subset of the same size; creating a subsample of the original dataset in such a way to keep the same class distribution (this is useful when testing different parameters without spending too much computation time on it).
 
 \subsection{Experiment structure}
 The final objective is to compare different classifiers, so it is mandatory that they all have to be subject to the same set of tests and evaluation criteria. The following phases are established:
@@ -72,7 +72,7 @@ The final objective is to compare different classifiers, so it is mandatory that
 
 
 \section{Preprocessing}
-The first step undertaken involves data analysis and preprocessing. It is important to assess the quality and quantity of information contained in the dataset; these traits can influence and explain particular behaviors of a classifier. Moreover, data can be in a form not yet suitable for training a classifier, and must be manipulated to guarantee the best performances in terms of quality of prediction and time.
+The first step involves data analysis and preprocessing. It is important to assess the quality and quantity of information contained in the dataset; these traits can influence and explain particular behaviors of a classifier. Moreover, data can be in a form not yet suitable for training a classifier, and must be manipulated to guarantee the best performances in terms of quality of prediction and time.
 
 \subsection{Entropy and Class Distribution}
 Entropy is a measure of uncertainty of a random variable. In this case the random variable is the class attribute in each example in the dataset. So it gives a measure of how much instances in this dataset are predictable. Entropy is computed using the following formula:
@@ -81,7 +81,7 @@ Entropy is a measure of uncertainty of a random variable. In this case the rando
 \end{equation}
 Where $C$ is the set of labels (or classes) and $n_c$ is the number of instances belonging to class $c$. In our case entropy is equal to $1.73$ (the maximum value is $2.8$) or, equivalently, $61\%$. This means that instances are not equally distributed amongst classes. Considering the class attribute as a random variable, its distribution is shown in Table \ref{tab:class_dist}. To make more evident the disparity in class distribution, a bar chart with the probabilities is shown in Figure \ref{fig:class_dist}.  
 
-\begin{table}[h!]
+\begin{table}[H]
  \centering
  \begin{tabular}{|l|l|}
  \hline
@@ -98,7 +98,7 @@ Where $C$ is the set of labels (or classes) and $n_c$ is the number of instances
 \label{tab:class_dist}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{pictures/class_dist.eps}
  \caption{class distribution in a bar chart.}
@@ -207,7 +207,7 @@ Since some features take on real values one can think that their underlying dist
 
 A first test is run to assess classifier's capacity using a dataset split, training the model with $63\%$ of the data and testing it with the remaining instances. The resulting accuracy is equal to $17.40\%$ or, equivalently, the error is equal to $82.6\%$. It is clear that the current classifier performs very poorly with this dataset. Table \ref{tab:gnb_test_pr} shows detailed statistics for each class; Table \ref{tab:gnb_cf} shows the confusion matrix. As can be seen we have high precision on the classes (1 and 2) having the major number of instances, but recall capacity is really low. This suggests that lack of equidistribution have played an important role in causing poor performances.
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -226,7 +226,7 @@ A first test is run to assess classifier's capacity using a dataset split, train
 
 
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|*{7}{c|}r|}
 \hline
@@ -256,15 +256,16 @@ A first test is run to assess classifier's capacity using a dataset split, train
 \subsubsection{Cross Validation}
 The next step is to apply K-fold cross validation, with $K=30$, to assess the classifier's performance with reasonably confidence in what will be discovered. Accuracy in each trial (fold) is computed and the resulting mean accuracy is $17.468\%$, with a $95\%$ confidence interval of $\pm 0.110$. 
 
-\begin{figure}[h!]
+As can be seen in Figure \ref{fig:acc_int_gnb}, in each fold the classifier has a very low accuracy. This explains why the confidence interval is small around the mean. Cross validation confirmed what was saw before: Naive Bayes, with the Gaussian assumption, is unable to predict the cover type. Furthermore, precision, recall and f-measure of each class, shown in Table \ref{tab:gnb_pr} and Figure \ref{fig:gnb_fmeasure}, show a great unbalance between precision and recall. Classes 3 has the highest \emph{harmonic mean} (that is, F-measure), while on class 4 the classifier shows full recall capability (this may be due to the fact that there are really few class 4 instances). Overall, F-measure values are really low, confirming that this classifier would be a poor choice.
+
+\begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{pictures/nb_gaussian_accuracy_interval.eps}
  \caption{Mean accuracy and confidence interval for Gaussian Naive Bayes.}
  \label{fig:acc_int_gnb}
 \end{figure}
 
-As can be seen in Figure \ref{fig:acc_int_gnb}, in each fold the classifier has a very low accuracy. This explains why the confidence interval is small around the mean. Cross validation confirmed what was saw before: Naive Bayes, with the Gaussian assumption, is unable to predict the cover type. Furthermore, precision, recall and f-measure of each class, shown in Table \ref{tab:gnb_pr} and Figure \ref{fig:gnb_fmeasure}, show a great unbalance between precision and recall. Classes 3 has the highest \emph{harmonic mean} (that is, F-measure), while on class 4 the classifier shows full recall capability (this may be due to the fact that there are really few class 4 instances). Overall, F-measure values are really low, confirming that this classifier would be a poor choice.
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -281,7 +282,7 @@ As can be seen in Figure \ref{fig:acc_int_gnb}, in each fold the classifier has 
 \label{tab:gnb_pr}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{pictures/nb_gaussian_fmeasure.eps}
  \caption{F-measures resulting from cross validation.}
@@ -291,9 +292,7 @@ As can be seen in Figure \ref{fig:acc_int_gnb}, in each fold the classifier has 
 
 \subsubsection{Learning curve}
 
-As final test, the learning curve of the classifier is studied. The main dataset is divided in ten parts and another ten datasets, of growing size, are created. Can the classifier improve its performance with a lager set of data? To answer this question, Naive Bayes is tested on the newly created datasets, and every accuracy value is annotated in Table \ref{tab:gnb_learning}. The minimum value is $12.3$, associated with the smallest dataset; the maximum value is $17.537$, obtained using one of the largest dataset. It can be said that there has been an improvement, even though a small one considering the datasets' size. Looking at Figure \ref{fig:gnb_learning} it is clear that size $200k$ acts as the threshold for improvement. The first three points are stable around $12.5$; then there is a jump to $17.3$ and from that point on the learning curve becomes flat at that value. It follows that most likely a greater dataset cannot improve the classifier's performance.
-
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|}
 \hline
@@ -313,7 +312,9 @@ As final test, the learning curve of the classifier is studied. The main dataset
 \label{tab:gnb_learning}
 \end{table}
 
-\begin{figure}[h!]
+As final test, the learning curve of the classifier is studied. The main dataset is divided in ten parts and another ten datasets, of growing size, are created. Can the classifier improve its performance with a lager set of data? To answer this question, Naive Bayes is tested on the newly created datasets, and every accuracy value is annotated in Table \ref{tab:gnb_learning}. The minimum value is $12.3$, associated with the smallest dataset; the maximum value is $17.537$, obtained using one of the largest dataset. It can be said that there has been an improvement, even though a small one considering the datasets' size. Looking at Figure \ref{fig:gnb_learning} it is clear that size $200k$ acts as the threshold for improvement. The first three points are stable around $12.5$; then there is a jump to $17.3$ and from that point on the learning curve becomes flat at that value. It follows that most likely a greater dataset cannot improve the classifier's performance.
+
+\begin{figure}[H]
  \centering
  \includegraphics[width=0.8\linewidth]{pictures/nb_gaussian_size_vs_accuracy.eps}
  \caption{Learning curve of Gaussian Naive Bayes.}
@@ -373,7 +374,7 @@ As before, the dataset is split in test set and training set; a multinomial Naiv
 \end{table}
 
 \subsubsection{Cross validation}
-It is now the moment to apply cross validation. The mean accuracy obtained is $64.165\%$, with a $95\%$ confidence interval of $\pm0.103$, shown in Figure \ref{fig:acc_int_mnb}. This result is in accordance with what has been found in the previous test. The small confidence interval indicates that the mean value is indeed representative of the true accuracy of the classifier. As has already been said, $64\%$ is still a non satisfactory value, but represents a great improvement to the Gaussian classifier's one. Detailed statistics for each class are shown in Table \ref{tab:mnb_cross_pr}. Even in cross validation class 5 is still not recognized, while other classes present a precision percentage around $60\%$. Recall values are more sparse, going from $2.4\%$ to $92.9\%$ (excluding class 5). F-Measure values, as can be seen also in Figure \ref{fig:mnb_fmeasure}, are fairly high for classes 1, 2, 3 and 7. It is interesting to note that class 7 has a relatively high f-measure, even though its instances are not frequent in the dataset, with respect to class 1 and 2 instances; yet, they present approximately the same F-measure. It may be that exist feature values particular to that class of instances. 
+It is now the moment to apply cross validation. The mean accuracy obtained is $64.165\%$, with a $95\%$ confidence interval of $\pm0.103$, shown in Figure \ref{fig:acc_int_mnb}. This result is in accordance with what has been found in the previous test. The small confidence interval indicates that the sample mean value is indeed representative of the true accuracy of the classifier. As has already been said, $64\%$ is still a non satisfactory value, but represents a great improvement to the Gaussian classifier's one. Detailed statistics for each class are shown in Table \ref{tab:mnb_cross_pr}. Even in cross validation class 5 is still not recognized, while other classes present a precision percentage around $60\%$. Recall values are more sparse, going from $2.4\%$ to $92.9\%$ (excluding class 5). F-Measure values, as can be seen also in Figure \ref{fig:mnb_fmeasure}, are fairly high for classes 1, 2, 3 and 7. It is interesting to note that class 7 has a relatively high f-measure, even though its instances are not frequent in the dataset, with respect to class 1 and 2 instances; yet, they present approximately the same F-measure. It may be that exist feature values particular to that class of instances. 
 
 \begin{figure}[H]
  \centering
@@ -458,7 +459,7 @@ For each value in $\mathcal{S}$ we build a neural network with that number of hi
 As can be seen in Figure \ref{fig:nn_hidden_units}, in general the more hidden units more is the score obtained. The highest score is associated with $40$ hidden units, so that values is chosen by the automated script that performs the various tests. It is to be noticed that the improvement in accuracy is not noticeable so a smaller number of hidden units would have been fine (it is also true that these results are valid on the \emph{subsample}; maybe a major number of hidden units is needed to handle the original dataset well).
 
 \subsection{Accuracy Testing}
-Now that parameters has been chosen, in order to have a general idea of its capabilities, the neural network is trained using $63\%$ of the instances in the dataset and tested using the remaining $37\%$. The accuracy of the neural network is $79.908\%$, which is a good value, considering the non optimal distribution of instances in the various classes.
+Now that parameters has been chosen, in order to have a general idea of its capabilities, the neural network is trained using $63\%$ of the instances in the dataset and tested using the remaining $37\%$. The accuracy of the neural network is $79.908\%$, which is a decent value, considering the non optimal distribution of instances in the various classes.
 
 \begin{table}[H]
 \centering
@@ -599,12 +600,12 @@ The number of all configurations tested is $250$. To perform the search, also in
  \label{fig:dt_config}
 \end{figure}
 
-The best score registered is $69\%$ with criterion ``gini'', minimum examples split 50, max features 15 and minimum examples leaf equal to 15. The choice of this configuration has brought a $5\%$ improvement in accuracy according to this test. 
+The best score registered is $69\%$ with \emph{criterion} ``gini'', \emph{min\_samples\_split} equal to 50, \emph{max\_features} equal to 15 and \emph{min\_samples\_leaf} equal to 15. The choice of this configuration has brought a $5\%$ improvement in accuracy according to this test. 
  
  
 \subsection{Accuracy Testing}
 
-The decision tree classifier instance created with the parameters found in precedence is run using the full dataset, with the usual $37\%$ split for the test set. Its accuracy is equal to $86.864\%$, demonstrating that decision trees can be used to obtain pretty good results on the current classification problem. Now the attention is focused on precision and recall values for each class, shown in in Table \ref{tab:dt_test_pr}. Decision trees seems to fit well in predicting the forest cover type, since precision and recall values are quite high, with maximum precision and recall registered equal to $89\%$. There is not too much distance between precision and recall values, in fact most F-measures values are noticeably over the $70\%$ threshold. Table \ref{tab:dt_cm} shows the confusion matrix. Few misclassification problems are noticeable. Class 5 is recognized $55\%$ of the times, while $35\%$ of its instances are misclassified as belonging to class $2$. In the case of class 4, $23\%$ of its instances are classified as belonging to class 3. $19\%$ of instances of class 6 are labeled with $3$. Other values outside the diagonal are pretty low, so one can deduce that this classifier has the potential to handle the prediction task at hand. 
+The decision tree classifier instance created with parameters found in precedence is run using the full dataset, with the usual $37\%$ split for the test set. Its accuracy is equal to $86.864\%$, demonstrating that decision trees can be used to obtain pretty good results on the current classification problem. Now the attention is focused on precision and recall values for each class, shown in in Table \ref{tab:dt_test_pr}. Decision trees seems to fit well in predicting the forest cover type, since precision and recall values are quite high, with maximum precision and recall registered equal to $89\%$. There is not too much distance between precision and recall values, in fact most F-measures values are noticeably over the $70\%$ threshold. Table \ref{tab:dt_cm} shows the confusion matrix. Few misclassification problems are noticeable. Class 5 is recognized $55\%$ of the times, while $35\%$ of its instances are misclassified as belonging to class $2$. In the case of class 4, $23\%$ of its instances are classified as belonging to class 3. $19\%$ of instances of class 6 are labeled with $3$. Other values outside the diagonal are pretty low, so one can deduce that this classifier has the potential to handle the prediction task at hand. 
  
 \begin{table}[H]
 \centering
@@ -745,7 +746,7 @@ The best score registered is $70\%$ with criterion ``entropy'', minimum examples
 
 To get an idea about the performances of the newly created random forest instance, an accuracy test is run, with the usual split. The resulted accuracy is equal to $93.946\%$, an optimal result which, if confirmed by cross validation, could classify random forest as one of the best classifiers (the best seen so far) to solve the forest coverage type. Table \ref{tab:rf_test_pr} lists precision, recall and F-measure values for each class. Almost all values for the precision metric are above $90\%$, which means that the classifier is capable of recognizing all the classes really well. Recall values are high too, with class 5 having the lowest registered value of $71\%$.
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -860,8 +861,29 @@ The last part of the experiment on the random forest classifier concerns its abi
  \label{fig:rf_learning}
 \end{figure}
 
+\section{Models comparison}
+In this section data gathered in experiments relative to every tested classifier is used to perform a comparison between them in order to gain insights about which one is more suitable to predict the forest cover type, why, and what are the difference with the other candidates. As first step classifiers' mean accuracies are plotted in Figure \ref{fig:comp_accuracies}.
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[width=0.8\linewidth]{pictures/comp_accuracies.eps}
+ \caption{classifiers' accuracy.}
+ \label{fig:comp_accuracies}
+\end{figure}
+
+The worst classifier is Gaussian Naive Bayes, with $17.46\%$, that means it is completely incapable of modeling the phenomenon. Next comes Multinomial Naive Bayes, which scores $64.1\%$. An increment in accuracy equal to $46.6\%$, obtained just by switching the underlying distribution of feature values. The Neural Network trained obtains an accuracy of $80\%$, classifying itself as  
+a potential solution. Decision Tree has a score of $88.5\%$ but Random Forest is the best classifier with an accuracy of $95.1\%$
+
+In general can we stated that the feature independence assumption is not valid (this is quite obvious, since various features encodes single attributes), and this is why Naive Bayes does not perform well.
+
+Neural network classifier has fairly good precision and recall values (Table \ref{tab:nn_cross_pr}) for the most frequent classes, but experiences a drop in performances on instances belonging to less frequent classes, especially class 5. This may be due to the nature of the training algorithm, since it gives more importance to latest items picked from the training set, and the probability of them to belong to class 1, 2, 3 is (a lot) higher than belonging to the remaining ones (see Figure \ref{fig:class_dist}). 
+
+Decision tree classifier goes a step further gaining a good accuracy value within a tight confidence interval and good F-measure values for each class (Figure \ref{fig:dt_fmeasure}). Decision tree outperforms Neural Networks and Naive Bayes because its structure matches very well the type of features that describe a generic instance of the dataset. Most of the features are binary values and can be interpreted as answer to a ``binary question'' when passing trough an internal node of the tree in order to split the data (in training phase) or to classify an instance.
+
+Finally, Random Forest has on this problem the benefits of the decision tree plus the fact that it has multiple different decision trees, a subset of which potentially focusing on a particular class. This can explain the high accuracy of this classifier and its good performance even on class 5 instances that are the most difficult to recognize.
+
+The last words are on the learning curve of the classifiers. Neural network, decision tree and random forest's accuracy show dependency on the number of samples in the dataset. The dataset is quite large to build a good classifier as it has been seen, but more data could further improve accuracy and make error rate negligible.
+
+In conclusion, this report has seen various classifiers trying to model the forest cover phenomenon. After a series of tests and a comparison Random Forest tool classifies itself as the one to be chosen to solve the problem, especially when class distribution is highly unbalanced.
 
 \end{document}
-
-
-

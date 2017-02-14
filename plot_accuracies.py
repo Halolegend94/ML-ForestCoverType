@@ -1,12 +1,32 @@
 from Libreria.Plotting import plotAccuracyInterval
+import matplotlib.pyplot as plt
+import numpy
+
+def mean(vals):
+    return sum(vals) / len(vals)
 
 dt = [ 88.744, 88.025,88.428,88.521,88.815,88.924,88.805,88.599,87.814,88.113,88.268,88.790,88.371,88.888,88.965,87.974,88.836,88.428,88.593,88.129,88.774,88.330,88.433,88.273,88.573,88.537,88.630,88.573,88.361,88.599]
-plotAccuracyInterval(dt, "decision_tree")
 gnb = [ 17.339, 17.815, 17.056, 17.443, 17.644, 17.283, 17.453, 17.262, 17.061, 17.598, 17.546, 17.469, 17.335, 17.211, 17.680, 17.799, 17.169, 17.711, 17.298, 17.897, 17.655, 17.773, 17.407, 17.138, 17.500, 17.546, 17.252, 17.164, 18.310, 17.226]
-plotAccuracyInterval(gnb, "nb_gaussian")
 mnb = [63.975, 63.973, 63.859, 63.947, 63.689, 64.210, 63.957, 63.885, 64.226, 64.169, 64.360, 64.236, 63.947, 64.608, 64.525, 64.494, 63.901, 64.143, 64.226, 64.298, 64.515, 64.525, 64.278, 64.525, 64.443, 63.828, 64.210, 63.751, 64.396, 63.859]
-plotAccuracyInterval(mnb, "nb_multi")
 nn = [79.470,80.569,80.280,80.807,80.115,80.646,80.368,79.361,79.764,78.953,80.301,79.072,80.368,80.383,79.485,78.354,81.204,80.512,78.746,80.383,80.192,80.574,80.714,79.288,79.893,79.996,80.579,79.159,80.559,80.910]
-plotAccuracyInterval(nn, "nn")
 rf = [95.084, 95.177, 94.754, 95.378, 95.079, 95.162, 95.275, 95.048, 95.120, 95.058, 95.456, 95.182, 95.048, 95.358, 95.203, 95.120, 95.363, 95.502, 94.955, 95.038, 95.141, 95.156, 95.306, 95.544, 94.914, 94.960, 95.260, 94.785, 95.280, 95.270]
-plotAccuracyInterval(rf, "random_forest")
+
+#plot accuracies
+vals = [mean(gnb), mean(mnb), mean(nn), mean(dt), mean(rf)]
+
+n_groups = len(vals)
+plt.figure()
+index = numpy.arange(n_groups)
+opacity = 1
+
+plt.bar(index,vals,width=0.5,alpha=opacity,
+                 color='#3a6dc4',
+                 label='Accuracy')
+
+plt.xlabel('Classifier')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of each classifier')
+plt.xticks(index , ('Gaussian Naive Bayes', 'Multinomial Naive Bayes', 'Neural Networks', 'Decision Tree', 'Random Forest'), rotation= 'vertical')
+plt.legend()
+plt.subplots_adjust(bottom=0.35)
+plt.show()

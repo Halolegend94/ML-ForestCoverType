@@ -4,7 +4,7 @@ import Libreria.DatasetAnalysis as da
 from Libreria.Testing import testClassifier, kFoldCrossValidation, ninetyFiveConfidenceInterval
 from Libreria.ConfusionMatrix import ConfusionMatrix
 from Libreria.Plotting import  plotFMeasure, plotAccuracyInterval, plotDatasetSizeVsAccuracy
-from Latex import printTableSizeVsAccuracy, printTableAccuracies, printTablePrecisionAndRecall, printConfusionMatrix
+from Libreria.Latex import printTableSizeVsAccuracy, printTableAccuracies, printTablePrecisionAndRecall, printConfusionMatrix
 
 
 def startTest(main_dataset, dataset_parts, clf, id_string):

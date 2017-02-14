@@ -1,5 +1,7 @@
 class ConfusionMatrix:
-
+"""
+Represents a confusion matrix and implements some functions to operate with it.
+"""
     def __init__(self, truth, predicted):
         '''
         truth is an array of labels where the i-th element represents the ground truth
@@ -57,6 +59,9 @@ class ConfusionMatrix:
         return 100 - self.accuracy
 
     def getPrecision(self, attrName):
+        """
+        returns the precision for class "attrName"
+        """
         #first, get the index of the attribute
         ind = self.labelIndexes[attrName]
         TP = self.confusionMatrix[ind][ind]
@@ -69,6 +74,9 @@ class ConfusionMatrix:
             return (TP/TPFP)*100
 
     def getRecall(self, attrName):
+        """
+        returns the recall for class "attrName"
+        """
         #first, get the index of the attribute
         ind = self.labelIndexes[attrName]
         TP = self.confusionMatrix[ind][ind]
@@ -81,6 +89,9 @@ class ConfusionMatrix:
             return (TP/TPFN)*100
 
     def getFMeasure(self, attrName):
+        """
+        returns the fmeasure value for class "attrName"
+        """
         p = self.getPrecision(attrName)
         r = self.getRecall(attrName)
         if p + r == 0:
